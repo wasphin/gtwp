@@ -1,17 +1,19 @@
 cmake_minimum_required(VERSION 2.8.8)
 
-if(POLICY CMP0048)
-  cmake_policy(SET CMP0048 OLD)
+if(CMAKE_VERSION VERSION_LESS "3.0")
+  project(gtwp CXX C)
+else()
+  cmake_policy(SET CMP0048 NEW)
+  project(gtwp VERSION "0.0.1" LANGUAGES CXX C)
 endif()
-
-project(gtwp
-  LANGUAGES CXX)
 
 option(GTWP_ENABLE_TESTS "Enable Tests" OFF)
 
 add_library(gtwp INTERFACE)
 file(GLOB_RECURSE GTWP_HDRS "include/*.h")
-target_sources(gtwp INTERFACE ${GTWP_HDRS})
+if(NOT CMAKE_VERSION VERSION_LESS "3.1")
+  target_sources(gtwp INTERFACE ${GTWP_HDRS})
+endif()
 
 # make headers visible to IDE
 add_custom_target(gtwp.headers SOURCES ${GTWP_HDRS})
