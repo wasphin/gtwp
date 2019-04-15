@@ -65,8 +65,13 @@ public:
     {
         TimeInMillis elapsed = GetTimeInMillis() - start_;
         if (elapsed <= threshold_) {
-            GTWP_INFO("%s (%s ms cost, threshold: %s ms)", streamable_.c_str(),
-                StreamableToString(elapsed).c_str(), StreamableToString(threshold_).c_str());
+            if (threshold_ == kMaxBiggestInt) {
+                GTWP_INFO("%s (%s ms cost)", streamable_.c_str(),
+                    StreamableToString(elapsed).c_str());
+            } else {
+                GTWP_INFO("%s (%s ms cost, threshold: %s ms)", streamable_.c_str(),
+                    StreamableToString(elapsed).c_str(), StreamableToString(threshold_).c_str());
+            }
         } else {
             GTWP_WARN("%s (%s ms cost, threshold: %s ms)", streamable_.c_str(),
                 StreamableToString(elapsed).c_str(), StreamableToString(threshold_).c_str());
